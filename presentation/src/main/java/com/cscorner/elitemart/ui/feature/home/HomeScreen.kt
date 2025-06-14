@@ -49,9 +49,11 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
     val uiState = viewModel.uiState.collectAsState()
 
     Scaffold {
-        Surface(modifier = Modifier
-            .fillMaxSize()
-            .padding(it)) {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
             when (uiState.value) {
                 is HomeScreenUIEvents.Loading -> {
                     CircularProgressIndicator()
@@ -59,7 +61,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
 
                 is HomeScreenUIEvents.Success -> {
                     val data = (uiState.value as HomeScreenUIEvents.Success)
-                    HomeContent(data.featured, data.popularProducts)
+                    HomeContent(data.featured, data.popularProducts, data.categories)
                 }
 
                 is HomeScreenUIEvents.Error -> {
@@ -116,7 +118,7 @@ fun ProfileHeader() {
 }
 
 @Composable
-fun HomeContent(featured: List<Product>, popularProducts: List<Product>) {
+fun HomeContent(featured: List<Product>, popularProducts: List<Product>, categories: List<String>) {
     LazyColumn {
         item {
             ProfileHeader()
@@ -125,6 +127,25 @@ fun HomeContent(featured: List<Product>, popularProducts: List<Product>) {
             Spacer(modifier = Modifier.size(16.dp))
         }
         item {
+            if (categories.isNotEmpty()) {
+                Spacer(modifier = Modifier.size(16.dp))
+                LazyRow {
+                    items(categories) { category ->
+                        Text(
+                            text = category.replaceFirstChar { it.uppercase() },
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.primary)
+                                .padding(horizontal = 8.dp)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.size(16.dp))
+            }
             if (featured.isNotEmpty()) {
                 HomeProductRow(featured, "Featured")
                 Spacer(modifier = Modifier.padding(16.dp))
