@@ -1,7 +1,9 @@
 package com.cscorner.data.network
 
 import com.cscorner.data.model.DataProductModel
+import com.cscorner.data.model.response.ProductListResponse
 import com.cscorner.domain.model.Product
+import com.cscorner.domain.model.ProductListModel
 import com.cscorner.domain.network.NetworkService
 import com.cscorner.domain.network.ResultWrapper
 import io.ktor.client.HttpClient
@@ -19,9 +21,9 @@ import io.ktor.utils.io.errors.IOException
 
 class NetworkServiceImpl(val client: HttpClient) : NetworkService {
 
-    private val baseUrl = "https://fakestoreapi.com"
+    private val baseUrl = "https://ecommerce-ktor-4641e7ff1b63.herokuapp.com"
 
-    override suspend fun getProducts(category: String?): ResultWrapper<List<Product>> {
+    override suspend fun getProducts(category: Int?): ResultWrapper<ProductListModel> {
 
         val url = if (category != null) {
             "$baseUrl/products/category/$category"
@@ -29,12 +31,10 @@ class NetworkServiceImpl(val client: HttpClient) : NetworkService {
             "$baseUrl/products"
         }
         return makeWebRequest(
-            url = "https://fakestoreapi.com/products",
+            url = url,
             method = HttpMethod.Get,
-            mapper = { dataModels: List<DataProductModel> ->
-                dataModels.map {
-                    it.toProduct()
-                }
+            mapper = { dataModels: ProductListResponse ->
+                dataModels.toProductList()
             }
         )
     }

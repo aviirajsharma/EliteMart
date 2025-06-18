@@ -1,12 +1,12 @@
 package com.cscorner.domain.model
 
 data class Product(
-    val id: Long,
-    val title: String,
-    val price: Double,
-    val category: String,
+    val categoryId: Int,
     val description: String,
-    val image: String
+    val id: Int,
+    val image: String,
+    val price: Double,
+    val title: String
 ) {
     val priceString: String
         get() = "$$price"
