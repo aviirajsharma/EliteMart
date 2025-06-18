@@ -1,7 +1,9 @@
 package com.cscorner.data.network
 
 import com.cscorner.data.model.DataProductModel
+import com.cscorner.data.model.response.CategoriesListResponse
 import com.cscorner.data.model.response.ProductListResponse
+import com.cscorner.domain.model.CategoriesListModel
 import com.cscorner.domain.model.Product
 import com.cscorner.domain.model.ProductListModel
 import com.cscorner.domain.network.NetworkService
@@ -39,11 +41,14 @@ class NetworkServiceImpl(val client: HttpClient) : NetworkService {
         )
     }
 
-    override suspend fun getCategories(): ResultWrapper<List<String>> {
-        val url = "$baseUrl/products/categories"
-        return makeWebRequest<List<String>, List<String>>(
+    override suspend fun getCategories(): ResultWrapper<CategoriesListModel> {
+        val url = "$baseUrl/categories"
+        return makeWebRequest(
             url = url,
             method = HttpMethod.Get,
+            mapper = { categories: CategoriesListResponse ->
+                categories.toCategoriesList()
+            }
         )
     }
 

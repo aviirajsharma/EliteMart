@@ -40,7 +40,7 @@ class HomeViewModel(
         categoriesUseCase.execute().let { result ->
             when (result) {
                 is ResultWrapper.Success -> {
-                    return (result).value
+                    return (result).value.categories.map { it.title }
                 }
                 is ResultWrapper.Failure -> {
                     return emptyList()
