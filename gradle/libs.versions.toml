@@ -16,6 +16,8 @@ koin = "4.0.0"
 #ktor
 ktor = "3.1.0"
 navigaitonCompose = "2.9.0"
+serialization = "1.6.3"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +37,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 #koin
 koin-core = {module = "io.insert-koin:koin-core", version.ref="koin"}
 koin-android = {module = "io.insert-koin:koin-android", version.ref="koin"}

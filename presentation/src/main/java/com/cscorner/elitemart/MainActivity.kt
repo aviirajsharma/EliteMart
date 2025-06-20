@@ -25,6 +25,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.cscorner.elitemart.navigation.CartScreen
+import com.cscorner.elitemart.navigation.HomeScreen
+import com.cscorner.elitemart.navigation.ProfileScreen
 import com.cscorner.elitemart.ui.feature.home.HomeScreen
 import com.cscorner.elitemart.ui.theme.EliteMartTheme
 
@@ -46,16 +49,16 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(it)
                     ) {
-                        NavHost(navController = navController, startDestination = "home") {
-                            composable("home") {
+                        NavHost(navController = navController, startDestination = HomeScreen) {
+                            composable<HomeScreen> {
                                 HomeScreen(navController)
                             }
-                            composable("cart") {
+                            composable<CartScreen> {
                                 Box(modifier = Modifier.fillMaxSize()) {
                                     Text("Cart")
                                 }
                             }
-                            composable("profile") {
+                            composable<ProfileScreen> {
                                 Box(modifier = Modifier.fillMaxSize()) {
                                     Text("Profile")
                                 }
@@ -79,8 +82,9 @@ fun BottomNavigationBar(navController: NavHostController) {
             BottomNavItems.Profile
         )
         items.forEach { item ->
+            val isSelected = currentRoute?.substringBefore("?") == item.route::class.qualifiedName
             NavigationBarItem(
-                selected = currentRoute == item.route,
+                selected = isSelected,
                 onClick = {
                     navController.navigate(item.route){
                         navController.graph.startDestinationRoute?.let{ startRoute->
@@ -98,7 +102,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                         painter = painterResource(id = item.icon),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(
-                            if (currentRoute == item.route) MaterialTheme.colorScheme.primary else Color.Gray
+                            if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray
                         )
                     )
                 },
@@ -114,8 +118,8 @@ fun BottomNavigationBar(navController: NavHostController) {
     }
 }
 
-sealed class BottomNavItems(val route: String, val title: String, val icon: Int) {
-    object Home : BottomNavItems("home", "Home", icon = R.drawable.ic_home)
-    object Cart : BottomNavItems("cart", "Cart", icon = R.drawable.ic_cart)
-    object Profile : BottomNavItems("profile", "Profile", icon = R.drawable.ic_profile_bn)
+sealed class BottomNavItems(val route: Any, val title: String, val icon: Int) {
+    object Home : BottomNavItems(HomeScreen, "Home", icon = R.drawable.ic_home)
+    object Cart : BottomNavItems(CartScreen, "Cart", icon = R.drawable.ic_cart)
+    object Profile : BottomNavItems(ProfileScreen, "Profile", icon = R.drawable.ic_profile_bn)
 }
