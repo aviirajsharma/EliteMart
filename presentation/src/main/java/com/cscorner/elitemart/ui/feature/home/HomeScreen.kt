@@ -5,6 +5,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,6 +49,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.cscorner.domain.model.Product
 import com.cscorner.elitemart.R
+import com.cscorner.elitemart.model.UiProductModel
+import com.cscorner.elitemart.navigation.ProductDetails
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -99,7 +102,10 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
                 popular.value,
                 categories.value,
                 loading.value,
-                error.value
+                error.value,
+                onClick = {
+                    navController.navigate(ProductDetails(UiProductModel.fromProduct(it)))
+                }
             )
         }
     }
@@ -156,13 +162,14 @@ fun HomeContent(
     popularProducts: List<Product>,
     categories: List<String>,
     isLoading: Boolean = false,
-    errorMsg: String? = null
+    errorMsg: String? = null,
+    onClick: (Product) -> Unit
 ) {
     LazyColumn {
         item {
             ProfileHeader()
             Spacer(modifier = Modifier.size(16.dp))
-            SearchBar(value = "", onTextChangeed = {})
+            SearchBar(value = "", onTextChanged = {})
             Spacer(modifier = Modifier.size(16.dp))
         }
         item {
@@ -210,20 +217,20 @@ fun HomeContent(
                 Spacer(modifier = Modifier.size(16.dp))
             }
             if (featured.isNotEmpty()) {
-                HomeProductRow(featured, "Featured")
+                HomeProductRow(featured, "Featured", onClick = onClick)
                 Spacer(modifier = Modifier.padding(16.dp))
             }
             if (popularProducts.isNotEmpty()) {
-                HomeProductRow(popularProducts, "Popular Products")
+                HomeProductRow(popularProducts, "Popular Products", onClick = onClick)
             }
         }
     }
 }
 
 @Composable
-fun SearchBar(value: String, onTextChangeed: (String) -> Unit) {
+fun SearchBar(value: String, onTextChanged: (String) -> Unit) {
     TextField(value = value,
-        onValueChange = onTextChangeed,
+        onValueChange = onTextChanged,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
@@ -253,7 +260,7 @@ fun SearchBar(value: String, onTextChangeed: (String) -> Unit) {
 }
 
 @Composable
-fun HomeProductRow(products: List<Product>, title: String) {
+fun HomeProductRow(products: List<Product>, title: String, onClick: (Product) -> Unit) {
     Column {
         Box(
             modifier = Modifier
@@ -290,7 +297,7 @@ fun HomeProductRow(products: List<Product>, title: String) {
                     visible = isVisible.value,
                     enter = fadeIn() + expandVertically()
                 ) {
-                    ProductItem(product = product)
+                    ProductItem(product = product, onClick)
                 }
             }
         }
@@ -298,11 +305,12 @@ fun HomeProductRow(products: List<Product>, title: String) {
 }
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(product: Product, onClick: (Product) -> Unit) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp)
-            .size(width = 126.dp, height = 144.dp),
+            .size(width = 126.dp, height = 144.dp)
+            .clickable { onClick(product) },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.LightGray.copy(alpha = 0.3f))
     ) {

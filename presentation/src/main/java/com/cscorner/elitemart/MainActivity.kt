@@ -25,11 +25,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.cscorner.domain.model.Product
+import com.cscorner.elitemart.model.UiProductModel
 import com.cscorner.elitemart.navigation.CartScreen
 import com.cscorner.elitemart.navigation.HomeScreen
+import com.cscorner.elitemart.navigation.ProductDetails
 import com.cscorner.elitemart.navigation.ProfileScreen
+import com.cscorner.elitemart.navigation.productNavType
 import com.cscorner.elitemart.ui.feature.home.HomeScreen
 import com.cscorner.elitemart.ui.theme.EliteMartTheme
+import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +67,14 @@ class MainActivity : ComponentActivity() {
                             composable<ProfileScreen> {
                                 Box(modifier = Modifier.fillMaxSize()) {
                                     Text("Profile")
+                                }
+                            }
+                            composable<ProductDetails>(
+                                typeMap = mapOf(typeOf<UiProductModel>() to productNavType)
+                            ) {
+                                val productRoute = it.toRoute<ProductDetails>()
+                                Box(modifier = Modifier.fillMaxSize()) {
+                                    Text(productRoute.product.title)
                                 }
                             }
                         }
