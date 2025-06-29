@@ -1,5 +1,6 @@
 package com.cscorner.elitemart.di
 
+import com.cscorner.elitemart.ui.feature.cart.CartViewModel
 import com.cscorner.elitemart.ui.feature.home.HomeViewModel
 import com.cscorner.elitemart.ui.feature.product_details.ProductDetailsViewModel
 import org.koin.core.module.dsl.viewModel
@@ -10,6 +11,9 @@ val viewModelModule = module {
         HomeViewModel(get(), get())
     }
     viewModel {
-        ProductDetailsViewModel()
+        ProductDetailsViewModel(get())
+    }
+    viewModel {
+        CartViewModel(get())
     }
 }

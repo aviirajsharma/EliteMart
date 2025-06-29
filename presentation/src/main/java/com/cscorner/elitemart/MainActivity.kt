@@ -37,6 +37,7 @@ import com.cscorner.elitemart.navigation.HomeScreen
 import com.cscorner.elitemart.navigation.ProductDetails
 import com.cscorner.elitemart.navigation.ProfileScreen
 import com.cscorner.elitemart.navigation.productNavType
+import com.cscorner.elitemart.ui.feature.cart.CartScreen
 import com.cscorner.elitemart.ui.feature.home.HomeScreen
 import com.cscorner.elitemart.ui.feature.product_details.ProductDetailsScreen
 import com.cscorner.elitemart.ui.theme.EliteMartTheme
@@ -72,9 +73,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable<CartScreen> {
                                 shouldShowBottomNav.value = true
-                                Box(modifier = Modifier.fillMaxSize()) {
-                                    Text("Cart")
-                                }
+                                CartScreen(navController)
                             }
                             composable<ProfileScreen> {
                                 shouldShowBottomNav.value = true
@@ -137,7 +136,6 @@ fun BottomNavigationBar(navController: NavHostController) {
                     selectedTextColor = MaterialTheme.colorScheme.primary,
                     unselectedIconColor = Color.Gray,
                     unselectedTextColor = Color.Gray
-
                 )
             )
         }

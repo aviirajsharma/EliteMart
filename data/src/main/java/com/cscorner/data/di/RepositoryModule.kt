@@ -2,6 +2,7 @@ package com.cscorner.data.di
 
 import com.cscorner.data.repository.CategoryRepositoryImpl
 import com.cscorner.data.repository.ProductRepositoryImpl
+import com.cscorner.domain.repository.CartRepository
 import com.cscorner.domain.repository.CategoryRepository
 import com.cscorner.domain.repository.ProductRepository
 import org.koin.dsl.module
@@ -9,4 +10,6 @@ import org.koin.dsl.module
 val repositoryModule = module {
     single<ProductRepository> { ProductRepositoryImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
+    single<CartRepository> { com.cscorner.data.repository.CartRepositoryImpl(get()) }
+
 }

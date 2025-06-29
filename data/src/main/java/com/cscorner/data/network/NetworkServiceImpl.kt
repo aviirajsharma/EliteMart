@@ -1,11 +1,13 @@
 package com.cscorner.data.network
 
-import com.cscorner.data.model.DataProductModel
+import com.cscorner.data.model.request.AddToCartRequest
+import com.cscorner.data.model.response.CartResponse
 import com.cscorner.data.model.response.CategoriesListResponse
 import com.cscorner.data.model.response.ProductListResponse
+import com.cscorner.domain.model.CartModel
 import com.cscorner.domain.model.CategoriesListModel
-import com.cscorner.domain.model.Product
 import com.cscorner.domain.model.ProductListModel
+import com.cscorner.domain.model.request.AddCartRequestModel
 import com.cscorner.domain.network.NetworkService
 import com.cscorner.domain.network.ResultWrapper
 import io.ktor.client.HttpClient
@@ -14,11 +16,11 @@ import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.request.header
 import io.ktor.client.request.request
+import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
 import io.ktor.http.contentType
-import io.ktor.utils.io.InternalAPI
 import io.ktor.utils.io.errors.IOException
 
 class NetworkServiceImpl(val client: HttpClient) : NetworkService {
@@ -52,7 +54,25 @@ class NetworkServiceImpl(val client: HttpClient) : NetworkService {
         )
     }
 
-    @OptIn(InternalAPI::class)
+    override suspend fun addProductToCart(request: AddCartRequestModel): ResultWrapper<CartModel> {
+        val url = "$baseUrl/cart/1"
+        return makeWebRequest(url = url,
+            method = HttpMethod.Post,
+            body = AddToCartRequest.fromCartRequestModel(request),
+            mapper = { cartItem: CartResponse ->
+                cartItem.toCartModel()
+            })
+    }
+
+    override suspend fun getCart(): ResultWrapper<CartModel> {
+        val url = "$baseUrl/cart/1"
+        return makeWebRequest(url = url,
+            method = HttpMethod.Get,
+            mapper = { cartItem: CartResponse ->
+                cartItem.toCartModel()
+            })
+    }
+
     suspend inline fun <reified T, R> makeWebRequest(
         url: String,
         method: HttpMethod,
@@ -78,7 +98,7 @@ class NetworkServiceImpl(val client: HttpClient) : NetworkService {
                 }
                 // Set body for POST, PUT, etc.
                 if (body != null) {
-                    this.body = body
+                    setBody(body)
                 }
 
                 // Set content type
