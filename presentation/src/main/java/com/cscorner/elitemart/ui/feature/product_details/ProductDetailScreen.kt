@@ -98,7 +98,7 @@ fun ProductDetailsScreen(
                         .weight(1f)
                 )
                 Text(
-                    text = "$${product.price}",
+                    text = "₹${product.price}",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(16.dp),
                     color = MaterialTheme.colorScheme.primary

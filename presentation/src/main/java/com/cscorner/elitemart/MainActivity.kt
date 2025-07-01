@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,6 +34,7 @@ import androidx.navigation.toRoute
 import com.cscorner.domain.model.Product
 import com.cscorner.elitemart.model.UiProductModel
 import com.cscorner.elitemart.navigation.CartScreen
+import com.cscorner.elitemart.navigation.CartSummaryScreen
 import com.cscorner.elitemart.navigation.HomeScreen
 import com.cscorner.elitemart.navigation.ProductDetails
 import com.cscorner.elitemart.navigation.ProfileScreen
@@ -40,6 +42,7 @@ import com.cscorner.elitemart.navigation.productNavType
 import com.cscorner.elitemart.ui.feature.cart.CartScreen
 import com.cscorner.elitemart.ui.feature.home.HomeScreen
 import com.cscorner.elitemart.ui.feature.product_details.ProductDetailsScreen
+import com.cscorner.elitemart.ui.feature.summary.CartSummaryScreen
 import com.cscorner.elitemart.ui.theme.EliteMartTheme
 import kotlin.reflect.typeOf
 
@@ -78,8 +81,12 @@ class MainActivity : ComponentActivity() {
                             composable<ProfileScreen> {
                                 shouldShowBottomNav.value = true
                                 Box(modifier = Modifier.fillMaxSize()) {
-                                    Text("Profile")
+                                    Text(text = "Profile")
                                 }
+                            }
+                            composable<CartSummaryScreen> {
+                                shouldShowBottomNav.value = false
+                               CartSummaryScreen(navController)
                             }
                             composable<ProductDetails>(
                                 typeMap = mapOf(typeOf<UiProductModel>() to productNavType)
@@ -97,10 +104,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
+fun BottomNavigationBar(navController: NavController) {
     NavigationBar {
         //current route
-        val currentRoute = navController.currentBackStackEntryAsState()?.value?.destination?.route
+        val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         val items = listOf(
             BottomNavItems.Home,
             BottomNavItems.Cart,
@@ -111,14 +118,14 @@ fun BottomNavigationBar(navController: NavHostController) {
             NavigationBarItem(
                 selected = isSelected,
                 onClick = {
-                    navController.navigate(item.route){
-                        navController.graph.startDestinationRoute?.let{ startRoute->
-                            popUpTo(startRoute){
+                    navController.navigate(item.route) {
+                        navController.graph.startDestinationRoute?.let { startRoute ->
+                            popUpTo(startRoute) {
                                 saveState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 },
                 label = { Text(text = item.title) },
@@ -126,16 +133,13 @@ fun BottomNavigationBar(navController: NavHostController) {
                     Image(
                         painter = painterResource(id = item.icon),
                         contentDescription = null,
-                        colorFilter = ColorFilter.tint(
-                            if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray
-                        )
+                        colorFilter = ColorFilter.tint(if (isSelected) MaterialTheme.colorScheme.primary else Color.Gray)
                     )
-                },
-                colors = NavigationBarItemDefaults.colors().copy(
+                }, colors = NavigationBarItemDefaults.colors().copy(
                     selectedIconColor = MaterialTheme.colorScheme.primary,
                     selectedTextColor = MaterialTheme.colorScheme.primary,
-                    unselectedIconColor = Color.Gray,
-                    unselectedTextColor = Color.Gray
+                    unselectedTextColor = Color.Gray,
+                    unselectedIconColor = Color.Gray
                 )
             )
         }

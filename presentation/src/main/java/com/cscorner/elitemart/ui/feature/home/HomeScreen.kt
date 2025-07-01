@@ -333,7 +333,7 @@ fun ProductItem(product: Product, onClick: (Product) -> Unit) {
             )
 
             Text(
-                text = "$${product.price}",
+                text = "₹${product.price}",
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(horizontal = 8.dp),
                 color = MaterialTheme.colorScheme.primary,
