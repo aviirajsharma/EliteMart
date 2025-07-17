@@ -170,7 +170,7 @@ fun ProductDetailsScreen(
                         .copy(containerColor = Color.LightGray.copy(alpha = 0.4f))
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_cart),
+                        painter = painterResource(id = R.drawable.ic_orders),
                         contentDescription = null
                     )
                 }

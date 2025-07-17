@@ -1,14 +1,19 @@
 package com.cscorner.data.network
 
 import com.cscorner.data.model.request.AddToCartRequest
+import com.cscorner.data.model.request.AddressDataModel
 import com.cscorner.data.model.response.CartResponse
 import com.cscorner.data.model.response.CartSummaryResponse
 import com.cscorner.data.model.response.CategoriesListResponse
+import com.cscorner.data.model.response.OrderListResponse
+import com.cscorner.data.model.response.PlaceOrderResponse
 import com.cscorner.data.model.response.ProductListResponse
+import com.cscorner.domain.model.AddressDomainModel
 import com.cscorner.domain.model.CartItemModel
 import com.cscorner.domain.model.CartModel
 import com.cscorner.domain.model.CartSummary
 import com.cscorner.domain.model.CategoriesListModel
+import com.cscorner.domain.model.OrdersListModel
 import com.cscorner.domain.model.ProductListModel
 import com.cscorner.domain.model.request.AddCartRequestModel
 import com.cscorner.domain.network.NetworkService
@@ -105,6 +110,28 @@ class NetworkServiceImpl(val client: HttpClient) : NetworkService {
             mapper = { cartSummary: CartSummaryResponse ->
                 cartSummary.toCartSummary()
             })
+    }
+
+    override suspend fun placeOrder(address: AddressDomainModel, userId: Int): ResultWrapper<Long> {
+        val dataModel = AddressDataModel.fromDomainAddress(address)
+        val url = "$baseUrl/orders/$userId"
+        return makeWebRequest(url = url,
+            method = HttpMethod.Post,
+            body = dataModel,
+            mapper = { orderRes: PlaceOrderResponse ->
+                orderRes.data.id
+            })
+    }
+
+    override suspend fun getOrderList(): ResultWrapper<OrdersListModel> {
+        val url = "${baseUrl}/orders/1"
+        return makeWebRequest(
+            url = url,
+            method = HttpMethod.Get,
+            mapper = { orderResponse: OrderListResponse ->
+                orderResponse.toDomainResponse()
+            }
+        )
     }
 
     suspend inline fun <reified T, R> makeWebRequest(

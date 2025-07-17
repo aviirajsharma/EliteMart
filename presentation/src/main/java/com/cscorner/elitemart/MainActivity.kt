@@ -25,24 +25,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.cscorner.domain.model.Product
 import com.cscorner.elitemart.model.UiProductModel
 import com.cscorner.elitemart.navigation.CartScreen
 import com.cscorner.elitemart.navigation.CartSummaryScreen
 import com.cscorner.elitemart.navigation.HomeScreen
+import com.cscorner.elitemart.navigation.OrdersScreen
 import com.cscorner.elitemart.navigation.ProductDetails
 import com.cscorner.elitemart.navigation.ProfileScreen
+import com.cscorner.elitemart.navigation.UserAddressRoute
+import com.cscorner.elitemart.navigation.UserAddressRouteWrapper
 import com.cscorner.elitemart.navigation.productNavType
+import com.cscorner.elitemart.navigation.userAddressNavType
 import com.cscorner.elitemart.ui.feature.cart.CartScreen
 import com.cscorner.elitemart.ui.feature.home.HomeScreen
+import com.cscorner.elitemart.ui.feature.orders.OrdersScreen
 import com.cscorner.elitemart.ui.feature.product_details.ProductDetailsScreen
 import com.cscorner.elitemart.ui.feature.summary.CartSummaryScreen
+import com.cscorner.elitemart.ui.feature.user_address.UserAddressScreen
 import com.cscorner.elitemart.ui.theme.EliteMartTheme
 import kotlin.reflect.typeOf
 
@@ -78,6 +82,10 @@ class MainActivity : ComponentActivity() {
                                 shouldShowBottomNav.value = true
                                 CartScreen(navController)
                             }
+                            composable<OrdersScreen>{
+                                shouldShowBottomNav.value = true
+                                OrdersScreen()
+                            }
                             composable<ProfileScreen> {
                                 shouldShowBottomNav.value = true
                                 Box(modifier = Modifier.fillMaxSize()) {
@@ -95,6 +103,16 @@ class MainActivity : ComponentActivity() {
                                 val productRoute = it.toRoute<ProductDetails>()
                                 ProductDetailsScreen(navController, productRoute.product)
                             }
+                            composable<UserAddressRoute>(
+                                typeMap = mapOf(typeOf<UserAddressRouteWrapper>() to userAddressNavType)
+                            ) {
+                                shouldShowBottomNav.value = false
+                                val userAddressRoute = it.toRoute<UserAddressRoute>()
+                                UserAddressScreen(
+                                    navController = navController,
+                                    userAddress = userAddressRoute.userAddressWrapper.userAddress
+                                )
+                            }
                         }
                     }
                 }
@@ -110,7 +128,7 @@ fun BottomNavigationBar(navController: NavController) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         val items = listOf(
             BottomNavItems.Home,
-            BottomNavItems.Cart,
+            BottomNavItems.Orders,
             BottomNavItems.Profile
         )
         items.forEach { item ->
@@ -148,6 +166,6 @@ fun BottomNavigationBar(navController: NavController) {
 
 sealed class BottomNavItems(val route: Any, val title: String, val icon: Int) {
     object Home : BottomNavItems(HomeScreen, "Home", icon = R.drawable.ic_home)
-    object Cart : BottomNavItems(CartScreen, "Cart", icon = R.drawable.ic_cart)
+    object Orders : BottomNavItems(OrdersScreen, "Orders", icon = R.drawable.ic_orders)
     object Profile : BottomNavItems(ProfileScreen, "Profile", icon = R.drawable.ic_profile_bn)
 }

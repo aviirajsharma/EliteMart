@@ -1,9 +1,11 @@
 package com.cscorner.domain.network
 
+import com.cscorner.domain.model.AddressDomainModel
 import com.cscorner.domain.model.CartItemModel
 import com.cscorner.domain.model.CartModel
 import com.cscorner.domain.model.CartSummary
 import com.cscorner.domain.model.CategoriesListModel
+import com.cscorner.domain.model.OrdersListModel
 import com.cscorner.domain.model.ProductListModel
 import com.cscorner.domain.model.request.AddCartRequestModel
 
@@ -19,6 +21,8 @@ interface NetworkService {
     suspend fun updateQuantity(cartItemModel: CartItemModel): ResultWrapper<CartModel>
     suspend fun deleteItem(cartItemId: Int, userId: Int): ResultWrapper<CartModel>
     suspend fun getCartSummary(userId: Int): ResultWrapper<CartSummary>
+    suspend fun placeOrder(address: AddressDomainModel, userId: Int) : ResultWrapper<Long>
+    suspend fun getOrderList(): ResultWrapper<OrdersListModel>
 }
 
 sealed class ResultWrapper<out T> {
