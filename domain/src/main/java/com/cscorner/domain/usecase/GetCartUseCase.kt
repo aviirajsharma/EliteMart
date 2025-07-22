@@ -4,5 +4,5 @@ import com.cscorner.domain.repository.CartRepository
 
 
 class GetCartUseCase(val cartRepository: CartRepository) {
-    suspend fun execute() = cartRepository.getCart()
+    suspend fun execute(userId: Long) = cartRepository.getCart(userId)
 }

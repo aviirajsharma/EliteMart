@@ -34,13 +34,17 @@ import com.cscorner.elitemart.model.UiProductModel
 import com.cscorner.elitemart.navigation.CartScreen
 import com.cscorner.elitemart.navigation.CartSummaryScreen
 import com.cscorner.elitemart.navigation.HomeScreen
+import com.cscorner.elitemart.navigation.LoginScreen
 import com.cscorner.elitemart.navigation.OrdersScreen
 import com.cscorner.elitemart.navigation.ProductDetails
 import com.cscorner.elitemart.navigation.ProfileScreen
+import com.cscorner.elitemart.navigation.RegisterScreen
 import com.cscorner.elitemart.navigation.UserAddressRoute
 import com.cscorner.elitemart.navigation.UserAddressRouteWrapper
 import com.cscorner.elitemart.navigation.productNavType
 import com.cscorner.elitemart.navigation.userAddressNavType
+import com.cscorner.elitemart.ui.feature.account.login.LoginScreen
+import com.cscorner.elitemart.ui.feature.account.register.RegisterScreen
 import com.cscorner.elitemart.ui.feature.cart.CartScreen
 import com.cscorner.elitemart.ui.feature.home.HomeScreen
 import com.cscorner.elitemart.ui.feature.orders.OrdersScreen
@@ -73,7 +77,22 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(it)
                     ) {
-                        NavHost(navController = navController, startDestination = HomeScreen) {
+                        NavHost(
+                            navController = navController,
+                            startDestination = if (ShopperSession.getUser() != null) {
+                                HomeScreen
+                            } else {
+                                LoginScreen
+                            }
+                        ) {
+                            composable<LoginScreen> {
+                                shouldShowBottomNav.value = false
+                                LoginScreen(navController)
+                            }
+                            composable<RegisterScreen> {
+                                shouldShowBottomNav.value = false
+                                RegisterScreen(navController)
+                            }
                             composable<HomeScreen> {
                                 HomeScreen(navController)
                                 shouldShowBottomNav.value = true
@@ -82,7 +101,7 @@ class MainActivity : ComponentActivity() {
                                 shouldShowBottomNav.value = true
                                 CartScreen(navController)
                             }
-                            composable<OrdersScreen>{
+                            composable<OrdersScreen> {
                                 shouldShowBottomNav.value = true
                                 OrdersScreen()
                             }
@@ -94,7 +113,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable<CartSummaryScreen> {
                                 shouldShowBottomNav.value = false
-                               CartSummaryScreen(navController)
+                                CartSummaryScreen(navController)
                             }
                             composable<ProductDetails>(
                                 typeMap = mapOf(typeOf<UiProductModel>() to productNavType)

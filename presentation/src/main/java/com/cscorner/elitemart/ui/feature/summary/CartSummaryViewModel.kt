@@ -6,6 +6,7 @@ import com.cscorner.domain.model.CartSummary
 import com.cscorner.domain.network.ResultWrapper
 import com.cscorner.domain.usecase.CartSummaryUseCase
 import com.cscorner.domain.usecase.PlaceOrderUseCase
+import com.cscorner.elitemart.ShopperSession
 import com.cscorner.elitemart.model.UserAddress
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,12 +19,13 @@ class CartSummaryViewModel(
 
     private val _uiState = MutableStateFlow<CartSummaryEvent>(CartSummaryEvent.Loading)
     val uiState = _uiState.asStateFlow()
+    val userDomainModel = ShopperSession.getUser()
 
     init {
-        getCartSummary(1)
+        getCartSummary(userDomainModel!!.id!!.toLong())
     }
 
-    private fun getCartSummary(userId: Int) {
+    private fun getCartSummary(userId: Long) {
         viewModelScope.launch {
             _uiState.value = CartSummaryEvent.Loading
             val summary = cartSummaryUseCase.execute(userId)
@@ -42,7 +44,7 @@ class CartSummaryViewModel(
     public fun placeOrder(userAddress: UserAddress) {
         viewModelScope.launch {
             _uiState.value = CartSummaryEvent.Loading
-            val orderId = placeOrderUseCase.execute(userAddress.toAddressDataModel())
+            val orderId = placeOrderUseCase.execute(userAddress.toAddressDataModel(),userDomainModel!!.id!!.toLong() )
             when (orderId) {
                 is com.cscorner.domain.network.ResultWrapper.Success -> {
                     _uiState.value = CartSummaryEvent.PlaceOrder(orderId.value)

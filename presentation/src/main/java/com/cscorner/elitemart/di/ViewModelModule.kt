@@ -1,5 +1,7 @@
 package com.cscorner.elitemart.di
 
+import com.cscorner.elitemart.ui.feature.account.login.LoginViewModel
+import com.cscorner.elitemart.ui.feature.account.register.RegisterViewModel
 import com.cscorner.elitemart.ui.feature.cart.CartViewModel
 import com.cscorner.elitemart.ui.feature.home.HomeViewModel
 import com.cscorner.elitemart.ui.feature.orders.OrdersViewModel
@@ -23,5 +25,11 @@ val viewModelModule = module {
     }
     viewModel {
         OrdersViewModel(get())
+    }
+    viewModel {
+        LoginViewModel(get())
+    }
+    viewModel {
+        RegisterViewModel(get())
     }
 }

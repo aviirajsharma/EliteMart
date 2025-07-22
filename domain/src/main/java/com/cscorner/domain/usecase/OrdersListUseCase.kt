@@ -5,5 +5,5 @@ import com.cscorner.domain.repository.OrderRepository
 class OrdersListUseCase(
     private val repository: OrderRepository
 ) {
-    suspend fun execute() = repository.getOrderList()
+    suspend fun execute(userId: Long) = repository.getOrderList(userId)
 }
