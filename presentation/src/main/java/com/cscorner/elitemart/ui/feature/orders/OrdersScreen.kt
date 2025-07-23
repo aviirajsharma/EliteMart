@@ -23,8 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cscorner.domain.model.OrdersData
+import com.cscorner.elitemart.R
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -39,7 +41,10 @@ fun OrdersScreen(viewModel: OrdersViewModel = koinViewModel()) {
         }
         val uiState = viewModel.orderEvent.collectAsState()
         //Tab Row
-        val tabs = listOf("All", "Pending", "Delivered", "Cancelled")
+        val tabs = listOf(stringResource(R.string.all),
+            stringResource(R.string.pending), stringResource(R.string.delivered),
+            stringResource(R.string.cancelled)
+        )
         val selectedTab = remember {
             mutableStateOf(0)
         }
@@ -52,7 +57,9 @@ fun OrdersScreen(viewModel: OrdersViewModel = koinViewModel()) {
                 ) {
                     Text(
                         title,
-                        modifier = Modifier.padding(8.dp).align(Alignment.Center),
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.Center),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -67,7 +74,7 @@ fun OrdersScreen(viewModel: OrdersViewModel = koinViewModel()) {
                     verticalArrangement = Arrangement.Center
                 ) {
                     CircularProgressIndicator()
-                    Text("Loading")
+                    Text(stringResource(R.string.loading))
                 }
             }
 
@@ -79,15 +86,15 @@ fun OrdersScreen(viewModel: OrdersViewModel = koinViewModel()) {
                     }
 
                     1 -> {
-                        OrdersList(orders = viewModel.filterOrders(orders, "Pending"))
+                        OrdersList(orders = viewModel.filterOrders(orders, stringResource(R.string.pending)))
                     }
 
                     2 -> {
-                        OrdersList(orders = viewModel.filterOrders(orders, "Delivered"))
+                        OrdersList(orders = viewModel.filterOrders(orders, stringResource(R.string.delivered)))
                     }
 
                     3 -> {
-                        OrdersList(orders = viewModel.filterOrders(orders, "Cancelled"))
+                        OrdersList(orders = viewModel.filterOrders(orders, stringResource(R.string.cancelled)))
                     }
                 }
             }
@@ -113,7 +120,7 @@ fun OrdersList(orders: List<OrdersData>) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("No Orders")
+            Text(stringResource(R.string.no_orders))
         }
     } else {
         LazyColumn {
@@ -136,9 +143,9 @@ fun OrderItem(order: OrdersData) {
             )
             .padding(8.dp)
     ) {
-        Text("Order Id: ${order.id}")
-        Text("Order Date: ${order.orderDate}")
-        Text("Total Amount: ${order.totalAmount}")
-        Text("Status: ${order.status}")
+        Text(stringResource(R.string.order_id, order.id))
+        Text(stringResource(R.string.order_date, order.orderDate))
+        Text(stringResource(R.string.total_amount, order.totalAmount))
+        Text(stringResource(R.string.status, order.status))
     }
 }

@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -135,11 +136,11 @@ fun ProfileHeader(onCartClicked: ()-> Unit) {
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = "Hello",
+                    text = stringResource(R.string.hello),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = "Aviraj Sharma",
+                    text = stringResource(R.string.aviraj_sharma),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -205,7 +206,7 @@ fun HomeContent(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     CircularProgressIndicator(modifier = Modifier.size(50.dp))
-                    Text("Loading.....", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(id = R.string.loading), style = MaterialTheme.typography.bodyMedium)
                 }
             }
             errorMsg?.let {
@@ -242,11 +243,12 @@ fun HomeContent(
                 Spacer(modifier = Modifier.size(16.dp))
             }
             if (featured.isNotEmpty()) {
-                HomeProductRow(featured, "Featured", onClick = onClick)
+                HomeProductRow(featured, stringResource(R.string.featured), onClick = onClick)
                 Spacer(modifier = Modifier.padding(16.dp))
             }
             if (popularProducts.isNotEmpty()) {
-                HomeProductRow(popularProducts, "Popular Products", onClick = onClick)
+                HomeProductRow(popularProducts,
+                    stringResource(R.string.popular_products), onClick = onClick)
             }
         }
     }
@@ -277,7 +279,7 @@ fun SearchBar(value: String, onTextChanged: (String) -> Unit) {
         ),
         placeholder = {
             Text(
-                text = "Search for products",
+                text = stringResource(R.string.search_for_products),
                 style = MaterialTheme.typography.bodySmall
             )
         }
@@ -301,7 +303,7 @@ fun HomeProductRow(products: List<Product>, title: String, onClick: (Product) ->
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = "View all",
+                text = stringResource(R.string.view_all),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.align(

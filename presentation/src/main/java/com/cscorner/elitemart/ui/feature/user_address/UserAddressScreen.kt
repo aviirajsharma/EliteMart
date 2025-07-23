@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.cscorner.elitemart.R
 import com.cscorner.elitemart.model.UserAddress
 
 const val USER_ADDRESS_SCREEN = "user_address"
@@ -43,31 +45,31 @@ fun UserAddressScreen(navController: NavController, userAddress: UserAddress?) {
         OutlinedTextField(
             value = addressLine.value,
             onValueChange = { addressLine.value = it },
-            label = { Text(text = "Address Line") },
+            label = { Text(text = stringResource(R.string.address_line)) },
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = city.value,
             onValueChange = { city.value = it },
-            label = { Text(text = "City") },
+            label = { Text(text = stringResource(R.string.city)) },
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = state.value,
             onValueChange = { state.value = it },
-            label = { Text(text = "State") },
+            label = { Text(text = stringResource(R.string.state)) },
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = postalCode.value,
             onValueChange = { postalCode.value = it },
-            label = { Text(text = "Postal Code") },
+            label = { Text(text = stringResource(R.string.postal_code)) },
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = country.value,
             onValueChange = { country.value = it },
-            label = { Text(text = "Country") },
+            label = { Text(text = stringResource(R.string.country)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -87,7 +89,7 @@ fun UserAddressScreen(navController: NavController, userAddress: UserAddress?) {
             }, modifier = Modifier.fillMaxWidth(),
             enabled = addressLine.value.isNotEmpty() && city.value.isNotEmpty() && state.value.isNotEmpty() && postalCode.value.isNotEmpty() && country.value.isNotEmpty()
         ) {
-            Text(text = "Save")
+            Text(text = stringResource(R.string.save))
         }
     }
 }

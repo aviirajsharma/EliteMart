@@ -18,10 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.cscorner.elitemart.R
 import com.cscorner.elitemart.navigation.HomeScreen
 import com.cscorner.elitemart.navigation.RegisterScreen
 import org.koin.androidx.compose.koinViewModel
@@ -49,7 +51,7 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel = 
 
             is RegisterState.Loading -> {
                 CircularProgressIndicator()
-                Text(text = "Loading..")
+                Text(text = stringResource(id = R.string.loading))
             }
 
             is RegisterState.Error -> {
@@ -88,14 +90,14 @@ fun RegisterContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Register", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.register), style = MaterialTheme.typography.titleLarge)
         OutlinedTextField(
             value = name.value,
             onValueChange = { name.value = it },
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth(),
-            label = { Text("Name:") }
+            label = { Text(stringResource(R.string.name)) }
         )
         OutlinedTextField(
             value = email.value,
@@ -103,7 +105,7 @@ fun RegisterContent(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth(),
-            label = { Text("Email:") }
+            label = { Text(stringResource(R.string.email)) }
         )
         OutlinedTextField(
             value = password.value,
@@ -111,7 +113,7 @@ fun RegisterContent(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth(),
-            label = { Text("Password") },
+            label = { Text(stringResource(R.string.password)) },
             visualTransformation = PasswordVisualTransformation()
         )
         Button(
@@ -121,10 +123,10 @@ fun RegisterContent(
             modifier = Modifier.fillMaxWidth(),
             enabled = email.value.isNotBlank() && password.value.isNotBlank() && name.value.isNotBlank()
         ) {
-            Text("Register")
+            Text(stringResource(id = R.string.register))
         }
         Text(
-            text = "Don't have an account? Register",
+            text = stringResource(R.string.already_have_an_account_login),
             modifier = Modifier
                 .padding(8.dp)
                 .clickable { onSignInClicked() }

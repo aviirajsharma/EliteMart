@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -125,7 +126,7 @@ fun ProductDetailsScreen(
             }
             Spacer(modifier = Modifier.size(16.dp))
             Text(
-                text = "Description",
+                text = stringResource(R.string.description),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
@@ -140,7 +141,7 @@ fun ProductDetailsScreen(
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(
-                text = "Size",
+                text = stringResource(R.string.size),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(start = 16.dp)
             )
@@ -160,7 +161,7 @@ fun ProductDetailsScreen(
                     onClick = { viewModel.addProductToCart(product) },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text(text = "Buy Now")
+                    Text(text = stringResource(R.string.buy_now))
                 }
                 Spacer(modifier = Modifier.size(8.dp))
                 IconButton(
@@ -227,7 +228,7 @@ fun ProductDetailsScreen(
             ) {
                 CircularProgressIndicator()
                 Text(
-                    text = "Adding to cart...",
+                    text = stringResource(R.string.adding_to_cart),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

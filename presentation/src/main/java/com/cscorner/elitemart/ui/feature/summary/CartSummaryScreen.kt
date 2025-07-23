@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -96,7 +97,7 @@ fun CartSummaryScreen(
                     ) {
                         // Show loading
                         CircularProgressIndicator()
-                        Text(text = "Loading", style = MaterialTheme.typography.titleMedium)
+                        Text(text = stringResource(R.string.loading), style = MaterialTheme.typography.titleMedium)
                     }
                 }
 
@@ -130,7 +131,7 @@ fun CartSummaryScreen(
                             contentDescription = null
                         )
                         Text(
-                            text = "Order Placed: ${event.orderId}",
+                            text = stringResource(R.string.order_placed, event.orderId),
                             style = MaterialTheme.typography.titleMedium,
                         )
                         Button(onClick = {
@@ -140,7 +141,7 @@ fun CartSummaryScreen(
                             )
                         }) {
                             Text(
-                                text = "Continue Shopping",
+                                text = stringResource(R.string.continue_shopping),
                                 style = MaterialTheme.typography.titleSmall
                             )
                         }
@@ -154,7 +155,7 @@ fun CartSummaryScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = address.value != null
             ) {
-                Text(text = "Checkout", style = MaterialTheme.typography.titleMedium)
+                Text(text = stringResource(R.string.checkout), style = MaterialTheme.typography.titleMedium)
             }
         }
     }
@@ -172,7 +173,7 @@ fun CartSummaryScreenContent(cartSummary: CartSummary) {
     ) {
         item {
             Text(
-                text = "Order Summary:",
+                text = stringResource(R.string.order_summary),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
@@ -182,11 +183,11 @@ fun CartSummaryScreenContent(cartSummary: CartSummary) {
         }
         item {
             Column {
-                AmountRow("Subtotal", cartSummary.data.subtotal)
-                AmountRow(title = "Tax", amount = cartSummary.data.tax)
-                AmountRow("Shipping", cartSummary.data.shipping)
-                AmountRow("Discount", cartSummary.data.discount)
-                AmountRow("Total", cartSummary.data.total)
+                AmountRow(stringResource(R.string.subtotal), cartSummary.data.subtotal)
+                AmountRow(title = stringResource(R.string.tax), amount = cartSummary.data.tax)
+                AmountRow(stringResource(R.string.shipping), cartSummary.data.shipping)
+                AmountRow(stringResource(R.string.discount), cartSummary.data.discount)
+                AmountRow(stringResource(R.string.total), cartSummary.data.total)
             }
 
         }
@@ -259,7 +260,7 @@ fun AddressBar(address: String, onClick: () -> Unit) {
         Spacer(modifier = Modifier.size(8.dp))
         Column {
             Text(
-                text = "Shipping Address",
+                text = stringResource(R.string.shipping_address),
                 style = MaterialTheme.typography.titleSmall,
                 fontSize = 16.sp
             )

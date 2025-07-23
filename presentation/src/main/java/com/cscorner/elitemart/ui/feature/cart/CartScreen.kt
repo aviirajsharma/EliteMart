@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -126,7 +127,7 @@ fun CartScreen(navController: NavController, viewModel: CartViewModel = koinView
                         onClick = { navController.navigate(CartSummaryScreen) },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(text = "Checkout")
+                        Text(text = stringResource(R.string.checkout))
                     }
                 }
             }
@@ -134,12 +135,12 @@ fun CartScreen(navController: NavController, viewModel: CartViewModel = koinView
                 // Show loading
                 Column(modifier = Modifier.align(Alignment.Center)) {
                     CircularProgressIndicator(modifier = Modifier.size(48.dp))
-                    Text(text = "Loading")
+                    Text(text = stringResource(id = R.string.loading))
                 }
             }
             if (errorMsg.value != null) {
                 Text(
-                    text = errorMsg.value ?: "Something went wrong!",
+                    text = errorMsg.value ?: stringResource(R.string.something_went_wrong),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
