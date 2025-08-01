@@ -1,5 +1,6 @@
 package com.cscorner.elitemart.navigation
 
+import android.annotation.SuppressLint
 import com.cscorner.elitemart.model.UiProductModel
 import kotlinx.serialization.Serializable
 
@@ -19,6 +20,10 @@ object CartScreen
 
 
 @Serializable
+object AllProductsScreen
+
+
+@Serializable
 object OrdersScreen
 
 @Serializable
@@ -27,10 +32,12 @@ object ProfileScreen
 @Serializable
 object CartSummaryScreen
 
+
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class ProductDetails(val product: UiProductModel)
 
-
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class  UserAddressRoute(val userAddressWrapper: UserAddressRouteWrapper)
 

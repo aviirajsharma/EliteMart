@@ -1,10 +1,13 @@
 package com.cscorner.elitemart.model
 
+import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.cscorner.domain.model.Product
 import kotlinx.android.parcel.Parcelize
 import kotlinx.serialization.Serializable
 
+
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 @Parcelize
 data class UiProductModel(
@@ -14,7 +17,7 @@ data class UiProductModel(
     val image: String,
     val price: Double,
     val title: String
-) : Parcelable {
+) : Parcelable{
     companion object {
         fun fromProduct(product: Product) = UiProductModel(
             categoryId = product.categoryId,

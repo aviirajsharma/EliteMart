@@ -7,7 +7,4 @@ data class Product(
     val image: String,
     val price: Double,
     val title: String
-) {
-    val priceString: String
-        get() = "$$price"
-}
+)

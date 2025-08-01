@@ -1,5 +1,6 @@
 package com.cscorner.elitemart.ui.feature.home
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -51,10 +52,12 @@ import coil.compose.AsyncImage
 import com.cscorner.domain.model.Product
 import com.cscorner.elitemart.R
 import com.cscorner.elitemart.model.UiProductModel
+import com.cscorner.elitemart.navigation.AllProductsScreen
 import com.cscorner.elitemart.navigation.CartScreen
 import com.cscorner.elitemart.navigation.ProductDetails
 import org.koin.androidx.compose.koinViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinViewModel()) {
 
@@ -75,7 +78,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding()
         ) {
             when (uiState.value) {
                 is HomeScreenUIEvents.Loading -> {
@@ -108,8 +111,8 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
                 onClick = {
                     navController.navigate(ProductDetails(UiProductModel.fromProduct(it)))
                 },
-                onCartClicked = {
-                    navController.navigate(CartScreen)
+                onProducts = {
+                    navController.navigate(AllProductsScreen)
                 }
             )
         }
@@ -118,7 +121,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
 }
 
 @Composable
-fun ProfileHeader(onCartClicked: ()-> Unit) {
+fun ProfileHeader(onProducts: ()-> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -151,28 +154,17 @@ fun ProfileHeader(onCartClicked: ()-> Unit) {
                 .align(Alignment.CenterEnd)
         ){
             Image(
-                painter = painterResource(id = R.drawable.notificatino),
+                painter = painterResource(id = R.drawable.shoppers),
                 contentDescription = null,
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(Color.LightGray.copy(alpha = 0.3f))
-                    .padding(8.dp),
-                contentScale = ContentScale.Inside
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_cart),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
-                    .background(Color.LightGray.copy(alpha = 0.3f))
-                    .padding(8.dp)
-                    .clickable {
-                        onCartClicked()
+                    .clickable{
+                        onProducts()
                     }
-                ,
-                contentScale = ContentScale.Inside
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .padding(4.dp),
+                contentScale = ContentScale.Fit
             )
         }
 
@@ -189,11 +181,11 @@ fun HomeContent(
     isLoading: Boolean = false,
     errorMsg: String? = null,
     onClick: (Product) -> Unit,
-    onCartClicked: () -> Unit
+    onProducts: () -> Unit
 ) {
     LazyColumn {
         item {
-            ProfileHeader(onCartClicked)
+            ProfileHeader(onProducts)
             Spacer(modifier = Modifier.size(16.dp))
             SearchBar(value = "", onTextChanged = {})
             Spacer(modifier = Modifier.size(16.dp))
@@ -301,14 +293,6 @@ fun HomeProductRow(products: List<Product>, title: String, onClick: (Product) ->
                     Alignment.CenterStart
                 ),
                 fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = stringResource(R.string.view_all),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.align(
-                    Alignment.CenterEnd
-                )
             )
         }
         Spacer(modifier = Modifier.size(8.dp))

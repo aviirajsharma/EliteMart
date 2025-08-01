@@ -64,4 +64,28 @@ dependencies {
     implementation(libs.compose.navigation)
     implementation(libs.coil.compose)
     implementation(libs.kotlinx.serialization.json)
+
+
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
+    testImplementation(libs.mockito.inline)
+
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.rules)
+    androidTestImplementation(libs.androidx.core)
+    androidTestImplementation(libs.koin.test)
+    androidTestImplementation((libs.koin.test.junit4))
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.androidx.tracing)
+
 }

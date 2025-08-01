@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -89,7 +90,8 @@ fun LoginContent(onSignInClicked:(String, String) -> Unit, onRegisterClicked:() 
             onValueChange = { email.value = it },
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("emailField"),
             label = { Text(stringResource(R.string.email)) }
         )
         OutlinedTextField(
@@ -97,7 +99,8 @@ fun LoginContent(onSignInClicked:(String, String) -> Unit, onRegisterClicked:() 
             onValueChange = { password.value = it },
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("passwordField"),
             label = { Text(stringResource(R.string.password)) },
             visualTransformation = PasswordVisualTransformation()
         )
@@ -105,7 +108,7 @@ fun LoginContent(onSignInClicked:(String, String) -> Unit, onRegisterClicked:() 
             onClick = {
                 onSignInClicked(email.value, password.value)
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().testTag("loginButton"),
             enabled = email.value.isNotBlank() && password.value.isNotBlank()
         ) {
             Text(stringResource(R.string.login))
