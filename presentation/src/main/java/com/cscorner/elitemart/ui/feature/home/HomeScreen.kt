@@ -132,7 +132,7 @@ fun ProfileHeader(onProducts: ()-> Unit) {
             modifier = Modifier.align(Alignment.CenterStart)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_profile),
+                painter = painterResource(id = R.drawable.ic_circle_profile),
                 contentDescription = null,
                 modifier = Modifier.size(48.dp)
             )
@@ -210,26 +210,19 @@ fun HomeContent(
                     items(categories,
                         key = { it }
                     ) { category ->
-                        val isVisible = remember { mutableStateOf(false) }
-                        LaunchedEffect(true) {
-                            isVisible.value = true
-                        }
-                        AnimatedVisibility(
-                            visible = isVisible.value,
-                            enter = fadeIn() + expandVertically()
-                        ) {
-                            Text(
-                                text = category.replaceFirstChar { it.uppercase() },
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onPrimary,
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier
-                                    .padding(horizontal = 8.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(MaterialTheme.colorScheme.primary)
-                                    .padding(horizontal = 8.dp)
-                            )
-                        }
+                        /** removed animated visibility, blocking render of
+                        categories which are not in viewport of screen**/
+                        Text(
+                            text = category.replaceFirstChar { it.uppercase() },
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.primary)
+                                .padding(8.dp)
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.size(16.dp))
@@ -300,16 +293,10 @@ fun HomeProductRow(products: List<Product>, title: String, onClick: (Product) ->
             items(products,
                 key = { it.id }
             ) { product ->
-                val isVisible = remember { mutableStateOf(false) }
-                LaunchedEffect(true) {
-                    isVisible.value = true
-                }
-                androidx.compose.animation.AnimatedVisibility(
-                    visible = isVisible.value,
-                    enter = fadeIn() + expandVertically()
-                ) {
-                    ProductItem(product = product, onClick)
-                }
+                /** removed animated visibility, blocking render of
+                products which are not in viewport of screen**/
+
+                ProductItem(product = product, onClick)
             }
         }
     }
@@ -322,8 +309,7 @@ fun ProductItem(product: Product, onClick: (Product) -> Unit) {
             .padding(horizontal = 8.dp)
             .size(width = 126.dp, height = 144.dp)
             .clickable { onClick(product) },
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.LightGray.copy(alpha = 0.3f))
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
@@ -332,6 +318,8 @@ fun ProductItem(product: Product, onClick: (Product) -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(96.dp)
+                    .background(Color.White),
+                contentScale = ContentScale.Fit
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(

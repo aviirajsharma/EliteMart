@@ -88,4 +88,7 @@ dependencies {
     androidTestImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.androidx.tracing)
 
+    // Splash Screen
+    implementation(libs.androidx.core.splashscreen)
+
 }

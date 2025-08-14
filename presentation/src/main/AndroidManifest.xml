@@ -12,14 +12,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EliteMart"
+        android:theme="@style/Theme.SplashScreen.EliteMart"
         android:name=".ShopperApp"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.EliteMart">
+            android:theme="@style/Theme.SplashScreen.EliteMart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

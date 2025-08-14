@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -56,6 +57,7 @@ import com.cscorner.elitemart.ui.feature.cart.CartScreen
 import com.cscorner.elitemart.ui.feature.home.HomeScreen
 import com.cscorner.elitemart.ui.feature.orders.OrdersScreen
 import com.cscorner.elitemart.ui.feature.product_details.ProductDetailsScreen
+import com.cscorner.elitemart.ui.feature.profile.ProfileScreen
 import com.cscorner.elitemart.ui.feature.summary.CartSummaryScreen
 import com.cscorner.elitemart.ui.feature.user_address.UserAddressScreen
 import com.cscorner.elitemart.ui.theme.EliteMartTheme
@@ -64,6 +66,7 @@ import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
@@ -146,9 +149,7 @@ class MainActivity : ComponentActivity() {
                             composable<ProfileScreen> {
                                 shouldShowBottomNav.value = true
                                 shouldShowFab.value = false
-                                Box(modifier = Modifier.fillMaxSize()) {
-                                    Text(text = "Profile")
-                                }
+                                ProfileScreen()
                             }
                             composable<CartSummaryScreen> {
                                 shouldShowBottomNav.value = false
@@ -184,7 +185,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-    NavigationBar {
+    NavigationBar(containerColor = Color.Transparent) {
         //current route
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         val items = listOf(
